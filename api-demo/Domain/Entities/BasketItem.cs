@@ -13,6 +13,8 @@ public class BasketItem : AuditableEntity
     public int Quantity { get; private set; }
     public decimal UnitPrice { get; private set; }
     
+    public decimal GetTotal() => Quantity * UnitPrice;
+
     public Basket Basket { get; private set; } = null!;
     
     private BasketItem() { }

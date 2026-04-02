@@ -11,6 +11,9 @@ public class Basket : AuditableEntity
     
     public List<BasketItem> Items { get; private set; } = [];
     
+    public decimal GetTotal() => Items
+        .Sum(i => i.Quantity * i.UnitPrice);
+    
     private Basket() { }
 
     public Basket(string name)
@@ -24,7 +27,7 @@ public class Basket : AuditableEntity
             SetName(name);
     }
     
-    public void AddItem(string productName, int itemNo, int quantity, int unitPrice)
+    public void AddItem(string productName, int itemNo, int quantity, decimal unitPrice)
     {
         var existing = Items.FirstOrDefault(i => i.ItemNo == itemNo);
         if (existing is not null)
