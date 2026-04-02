@@ -1,8 +1,9 @@
 using api_demo.Common.Exceptions;
+using api_demo.Domain.Common;
 
 namespace api_demo.Domain.Entities;
 
-public class Basket
+public class Basket : AuditableEntity
 {
     public Guid Id { get; private set; }
     
