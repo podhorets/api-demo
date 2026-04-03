@@ -18,7 +18,7 @@ public class UpdateBasketHandler(AppDbContext db, IValidator<UpdateBasketRequest
                      ?? throw new NotFoundException($"Basket with ID '{basketId}' was not found.");
         
         if (request.Name is not null)
-            basket.Update(request.Name);
+            basket.Update(request.Name.Trim());
         
         await db.SaveChangesAsync(ct);
 
