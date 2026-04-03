@@ -11,6 +11,8 @@ public class BasketConfiguration : IEntityTypeConfiguration<Basket>
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Name).HasMaxLength(100).IsRequired();
 
+        builder.HasQueryFilter(b => !b.IsDeleted);
+
         builder.HasMany(b => b.Items)
             .WithOne(i => i.Basket)
             .HasForeignKey(i => i.BasketId)

@@ -9,6 +9,8 @@ public class Basket : AuditableEntity
     
     public string Name { get; private set; } = string.Empty;
     
+    public bool IsDeleted { get; private set; }
+    
     public List<BasketItem> Items { get; private set; } = [];
     
     public decimal GetTotal() => Items.Sum(i => i.GetTotal());
@@ -24,6 +26,14 @@ public class Basket : AuditableEntity
     {
         if (name is not null)
             SetName(name);
+    }
+    
+    public void Delete()
+    {
+        if (IsDeleted)
+            return;
+
+        IsDeleted = true;
     }
     
     public void AddItem(string productName, int itemNo, int quantity, decimal unitPrice)
