@@ -13,6 +13,7 @@ public static class BasketItemMapper
             basketItem.Quantity,
             basketItem.UnitPrice, 
             basketItem.GetTotal(),
-            basketItem.CreatedAt);
+            basketItem.CreatedAt,
+            basketItem.UpdatedAt);
     }
 }

@@ -1,11 +1,9 @@
 namespace api_demo.Features.Baskets.Shared;
 
-public record BasketItemResponse(
+public record BasketResponse(
     Guid Id,
-    string ProductName,
-    int ItemNo,
-    int Quantity,
-    decimal UnitPrice,
+    string Name,
+    List<BasketItemResponse> Items,
     decimal Total,
     DateTime CreatedAt,
     DateTime? UpdatedAt);
