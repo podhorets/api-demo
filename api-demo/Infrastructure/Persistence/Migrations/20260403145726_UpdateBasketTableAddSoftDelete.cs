@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace api_demo.Migrations
+namespace api_demo.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class UpdateBasketTableAddSoftDelete : Migration

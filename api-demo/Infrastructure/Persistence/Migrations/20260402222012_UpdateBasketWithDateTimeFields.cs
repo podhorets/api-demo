@@ -1,9 +1,8 @@
-﻿using System;
+﻿#nullable disable
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
-namespace api_demo.Migrations
+namespace api_demo.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class UpdateBasketWithDateTimeFields : Migration
