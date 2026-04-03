@@ -11,7 +11,9 @@ public class Basket : AuditableEntity
     
     public bool IsDeleted { get; private set; }
     
-    public List<BasketItem> Items { get; private set; } = [];
+    private readonly List<BasketItem> _items = [];
+    public IReadOnlyList<BasketItem> Items => _items;
+
     
     public decimal GetTotal() => Items.Sum(i => i.GetTotal());
     
@@ -44,7 +46,7 @@ public class Basket : AuditableEntity
             throw new ConflictException("Product already exists in basket.");
         }
 
-        Items.Add(new BasketItem(Id, productName, itemNo, quantity, unitPrice));
+        _items.Add(new BasketItem(basketId: Id, productName, itemNo, quantity, unitPrice));
     }
 
     public void UpdateItem(Guid itemId, int quantity)
@@ -60,7 +62,7 @@ public class Basket : AuditableEntity
         var item = Items.FirstOrDefault(i => i.Id == itemId)
                    ?? throw new NotFoundException("Item not found");
 
-        Items.Remove(item);
+        _items.Remove(item);
     }
         
     private void SetName(string name)
