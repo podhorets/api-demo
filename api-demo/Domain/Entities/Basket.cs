@@ -11,8 +11,7 @@ public class Basket : AuditableEntity
     
     public List<BasketItem> Items { get; private set; } = [];
     
-    public decimal GetTotal() => Items
-        .Sum(i => i.Quantity * i.UnitPrice);
+    public decimal GetTotal() => Items.Sum(i => i.GetTotal());
     
     private Basket() { }
 
