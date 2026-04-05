@@ -1,5 +1,7 @@
 ﻿services:
   api-demo:
+    depends_on:
+      - postgres
     image: api-demo
     build:
       context: .

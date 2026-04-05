@@ -1,4 +1,4 @@
-# Shopping Basket API
+# Basket API
 
 ASP.NET Core 10 API for managing shopping baskets. Uses PostgreSQL, JWT auth with refresh token rotation, FluentValidation, and Serilog.
 
@@ -90,7 +90,9 @@ A collection and environment are included in the `postman/` folder.
 
 **Import:** In Postman, click Import and load both `api-demo.postman_collection.json` and `api-demo.postman_environment.json`.
 
-**Set the URL:** Select the `api-demo-local` environment and update `baseUrl` to match your running container URL (see above).
+**IMPORTANT:** Select the `api-demo-local` environment (top right corner, `Variables` tab) and update `baseUrl` to match your running container URL:
+- **OrbStack**: `https://api-demo.api-demo.orb.local`
+- **Docker Desktop / other**: `http://localhost:8080`
 
 **Run:** Right-click the `api-demo API` collection -> Run collection -> confirm environment is `api-demo-local` -> Run. Requests must run in order, later ones depend on variables (`basketId`, `itemId`, etc.) set by earlier ones. Variables like `accessToken`, `refreshToken`, and `basketId` are captured automatically by the collection scripts. Signup generates a unique email each run so it's safe to repeat.
 
