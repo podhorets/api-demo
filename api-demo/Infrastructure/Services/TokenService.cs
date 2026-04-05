@@ -59,14 +59,23 @@ public class TokenService(IOptions<JwtOptions> jwtOptions) : ITokenService
             IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(_jwtOptions.Secret))
         };
 
-        var handler = new JwtSecurityTokenHandler();
-        var principal = handler.ValidateToken(token, validation, out var securityToken);
+        try
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var principal = handler.ValidateToken(token, validation, out var securityToken);
 
-        if (securityToken is not JwtSecurityToken jwt
-            || !jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
-                StringComparison.InvariantCultureIgnoreCase))
-            return null;
+            if (securityToken is not JwtSecurityToken jwt
+                || !jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+                    StringComparison.InvariantCultureIgnoreCase))
+                return null;
 
-        return principal;
+            return principal;
+        }
+        catch (Exception ex) when (
+            ex is SecurityTokenException ||
+            ex is ArgumentException)
+        {
+            throw new UnauthorizedAccessException("Invalid access token.", ex);
+        }
     }
 }

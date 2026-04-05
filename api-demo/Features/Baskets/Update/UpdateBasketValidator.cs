@@ -7,8 +7,10 @@ public class UpdateBasketValidator : AbstractValidator<UpdateBasketRequest>
     public UpdateBasketValidator()
     {
         RuleFor(x => x.Name)
+            .NotNull()
+            .NotEmpty()
+            .MinimumLength(1)
             .MaximumLength(100)
-            .WithMessage("Basket name must not exceed 100 characters.")
-            .When(x => x.Name is not null);
+            .WithMessage("Basket name must not exceed 100 characters.");
     }
 }

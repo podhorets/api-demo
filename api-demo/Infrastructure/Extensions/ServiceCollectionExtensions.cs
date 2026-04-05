@@ -102,22 +102,6 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-
-    public static IServiceCollection AddRateLimiting(this IServiceCollection services)
-    {
-        services.AddRateLimiter(options =>
-        {
-            options.AddFixedWindowLimiter("auth", opt =>
-            {
-                opt.PermitLimit = 10;
-                opt.Window = TimeSpan.FromMinutes(1);
-                opt.QueueLimit = 0;
-            });
-            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-        });
-        
-        return services;
-    }
     
     public static IServiceCollection AddSwaggerWithJwt(this IServiceCollection services)
     {
