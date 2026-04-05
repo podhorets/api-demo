@@ -6,15 +6,15 @@ namespace api_demo.Domain.Entities;
 public class Basket : AuditableEntity
 {
     public Guid Id { get; private set; }
-    
+    public Guid UserId { get; set; }
+
     public string Name { get; private set; } = string.Empty;
-    
     public bool IsDeleted { get; private set; }
     
     private readonly List<BasketItem> _items = [];
     public IReadOnlyList<BasketItem> Items => _items;
+    public User User { get; set; } = null!;
 
-    
     public decimal GetTotal() => Items.Sum(i => i.GetTotal());
     
     private Basket() { }
