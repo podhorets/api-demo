@@ -12,8 +12,8 @@ using api_demo.Infrastructure.Persistence;
 namespace api_demo.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260405132928_AddUserTables")]
-    partial class AddUserTables
+    [Migration("20260405171830_AddUserAndAuthTables")]
+    partial class AddUserAndAuthTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,7 +121,7 @@ namespace api_demo.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PasswordResetToken");
+                    b.ToTable("PasswordResetTokens");
                 });
 
             modelBuilder.Entity("api_demo.Domain.Entities.RefreshToken", b =>
@@ -153,7 +153,7 @@ namespace api_demo.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("api_demo.Domain.Entities.User", b =>
@@ -190,7 +190,7 @@ namespace api_demo.Infrastructure.Persistence.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("api_demo.Domain.Entities.Basket", b =>

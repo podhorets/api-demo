@@ -118,7 +118,7 @@ namespace api_demo.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PasswordResetToken");
+                    b.ToTable("PasswordResetTokens");
                 });
 
             modelBuilder.Entity("api_demo.Domain.Entities.RefreshToken", b =>
@@ -150,7 +150,7 @@ namespace api_demo.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("api_demo.Domain.Entities.User", b =>
@@ -187,7 +187,7 @@ namespace api_demo.Infrastructure.Persistence.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("api_demo.Domain.Entities.Basket", b =>
