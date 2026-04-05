@@ -56,7 +56,7 @@ public class TokenService(IOptions<JwtOptions> jwtOptions) : ITokenService
             ValidateIssuerSigningKey = true,
             ValidIssuer = _jwtOptions.Issuer,
             ValidAudience = _jwtOptions.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Secret))
+            IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(_jwtOptions.Secret))
         };
 
         var handler = new JwtSecurityTokenHandler();

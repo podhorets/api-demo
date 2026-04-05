@@ -65,6 +65,7 @@ public class RequestPasswordResetHandler(
         return new
         {
             Message = $"Demo: password reset link would be emailed. Example link: {resetLink}",
+            Token = rawToken,
             ExpiresAt = resetToken.ExpiresAt
         };
     }
