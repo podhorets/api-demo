@@ -8,6 +8,7 @@ using api_demo.Features.Baskets.Search;
 using api_demo.Features.Baskets.Shared;
 using api_demo.Features.Baskets.Update;
 using api_demo.Features.Baskets.UpdateItem;
+using api_demo.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +29,7 @@ public class BasketsController : ControllerBase
         [FromServices] CreateBasketHandler handler,
         CancellationToken ct)
     {
-        var result = await handler.HandleAsync(request, ct);
+        var result = await handler.HandleAsync(request, User.GetUserId(), ct);
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
@@ -41,7 +42,7 @@ public class BasketsController : ControllerBase
         [FromServices] GetBasketHandler handler,
         CancellationToken ct)
     {
-        var result = await handler.HandleAsync(id, ct);
+        var result = await handler.HandleAsync(id, User.GetUserId(), ct);
         return Ok(result);
     }
 
@@ -54,7 +55,7 @@ public class BasketsController : ControllerBase
         [FromServices] SearchBasketsHandler handler,
         CancellationToken ct)
     {
-        var result = await handler.HandleAsync(request, ct);
+        var result = await handler.HandleAsync(request, User.GetUserId(), ct);
         return Ok(result);
     }
 
@@ -69,7 +70,7 @@ public class BasketsController : ControllerBase
         [FromServices] UpdateBasketHandler handler,
         CancellationToken ct)
     {
-        var result = await handler.HandleAsync(id, request, ct);
+        var result = await handler.HandleAsync(id, request, User.GetUserId(), ct);
         return Ok(result);
     }
 
@@ -82,7 +83,7 @@ public class BasketsController : ControllerBase
         [FromServices] DeleteBasketHandler handler,
         CancellationToken ct)
     {
-        await handler.HandleAsync(id, ct);
+        await handler.HandleAsync(id, User.GetUserId(), ct);
         return NoContent();
     }
     
@@ -98,7 +99,7 @@ public class BasketsController : ControllerBase
         [FromServices] AddItemHandler handler,
         CancellationToken ct)
     {
-        var result = await handler.HandleAsync(basketId, request, ct);
+        var result = await handler.HandleAsync(basketId, request, User.GetUserId(), ct);
         return Ok(result);
     }
 
@@ -114,7 +115,7 @@ public class BasketsController : ControllerBase
         [FromServices] UpdateItemHandler handler,
         CancellationToken ct)
     {
-        var result = await handler.HandleAsync(basketId, itemId, request, ct);
+        var result = await handler.HandleAsync(basketId, itemId, request, User.GetUserId(), ct);
         return Ok(result);
     }
 
@@ -128,7 +129,7 @@ public class BasketsController : ControllerBase
         [FromServices] RemoveItemHandler handler,
         CancellationToken ct)
     {
-        var result = await handler.HandleAsync(basketId, itemId, ct);
+        var result = await handler.HandleAsync(basketId, itemId, User.GetUserId(), ct);
         return Ok(result);
     }
 }

@@ -7,12 +7,13 @@ namespace api_demo.Features.Baskets.GetById;
 
 public class GetBasketHandler(AppDbContext db)
 {
-    public async Task<GetBasketResponse> HandleAsync(Guid basketId, CancellationToken ct)
+    public async Task<GetBasketResponse> HandleAsync(
+        Guid basketId, Guid userId, CancellationToken ct)
     {
         var basket = await db.Baskets
                          .AsNoTracking()
                          .Include(b => b.Items)
-                         .FirstOrDefaultAsync(b => b.Id == basketId, ct)
+                         .FirstOrDefaultAsync(b => b.Id == basketId && b.UserId == userId, ct)
                      ?? throw new NotFoundException($"Basket with ID '{basketId}' was not found.");
 
         return new GetBasketResponse(

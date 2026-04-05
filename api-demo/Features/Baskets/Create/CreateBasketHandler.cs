@@ -8,13 +8,14 @@ namespace api_demo.Features.Baskets.Create;
 
 public class CreateBasketHandler(AppDbContext db, IValidator<CreateBasketRequest> validator)
 {
-    public async Task<CreateBasketResponse> HandleAsync(CreateBasketRequest request, CancellationToken ct)
+    public async Task<CreateBasketResponse> HandleAsync(
+        CreateBasketRequest request, Guid userId, CancellationToken ct)
     {
         var validation = await validator.ValidateAsync(request, ct);
         if (!validation.IsValid)
             throw new AppValidationException(validation);
 
-        var basket = new Basket(request.Name);
+        var basket = new Basket(request.Name, userId);
 
         if (request.Items is { Count: > 0 })
         {

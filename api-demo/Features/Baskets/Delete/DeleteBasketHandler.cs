@@ -6,9 +6,10 @@ namespace api_demo.Features.Baskets.Delete;
 
 public class DeleteBasketHandler(AppDbContext db)
 {
-    public async Task HandleAsync(Guid basketId, CancellationToken ct)
+    public async Task HandleAsync(Guid basketId, Guid userId, CancellationToken ct)
     {
-        var basket = await db.Baskets.FirstOrDefaultAsync(b => b.Id == basketId, ct)
+        var basket = await db.Baskets
+                         .FirstOrDefaultAsync(b => b.Id == basketId && b.UserId == userId, ct)
                      ?? throw new NotFoundException($"Basket with ID '{basketId}' was not found.");
 
         if (basket.IsDeleted)

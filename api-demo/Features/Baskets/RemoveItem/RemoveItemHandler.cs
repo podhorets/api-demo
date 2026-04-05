@@ -8,11 +8,11 @@ namespace api_demo.Features.Baskets.RemoveItem;
 public class RemoveItemHandler(AppDbContext db)
 {
     public async Task<BasketResponse> HandleAsync(
-        Guid basketId, Guid itemId, CancellationToken ct)
+        Guid basketId, Guid itemId, Guid userId, CancellationToken ct)
     {
         var basket = await db.Baskets
                          .Include(b => b.Items)
-                         .FirstOrDefaultAsync(b => b.Id == basketId, ct)
+                         .FirstOrDefaultAsync(b => b.Id == basketId && b.UserId == userId, ct)
                      ?? throw new NotFoundException($"Basket with ID '{basketId}' was not found.");
         
         basket.RemoveItem(itemId);

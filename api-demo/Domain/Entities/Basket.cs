@@ -6,7 +6,7 @@ namespace api_demo.Domain.Entities;
 public class Basket : AuditableEntity
 {
     public Guid Id { get; private set; }
-    public Guid UserId { get; set; }
+    public Guid UserId { get; private set; }
 
     public string Name { get; private set; } = string.Empty;
     public bool IsDeleted { get; private set; }
@@ -19,9 +19,10 @@ public class Basket : AuditableEntity
     
     private Basket() { }
 
-    public Basket(string name)
+    public Basket(string name, Guid userId)
     {
         SetName(name);
+        UserId = userId;
     }
     
     public void Update(string? name)

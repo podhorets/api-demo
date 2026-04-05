@@ -8,13 +8,14 @@ namespace api_demo.Features.Baskets.Update;
 public class UpdateBasketHandler(AppDbContext db, IValidator<UpdateBasketRequest> validator)
 {
     public async Task<UpdateBasketResponse> HandleAsync(
-        Guid basketId, UpdateBasketRequest request, CancellationToken ct)
+        Guid basketId, UpdateBasketRequest request, Guid userId, CancellationToken ct)
     {
         var validation = await validator.ValidateAsync(request, ct);
         if (!validation.IsValid)
             throw new AppValidationException(validation);
 
-        var basket = await db.Baskets.FirstOrDefaultAsync(b => b.Id == basketId, ct) 
+        var basket = await db.Baskets
+                         .FirstOrDefaultAsync(b => b.Id == basketId && b.UserId == userId, ct) 
                      ?? throw new NotFoundException($"Basket with ID '{basketId}' was not found.");
         
         if (request.Name is not null)

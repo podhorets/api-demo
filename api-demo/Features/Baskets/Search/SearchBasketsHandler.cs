@@ -10,13 +10,13 @@ namespace api_demo.Features.Baskets.Search;
 public class SearchBasketsHandler(AppDbContext db, IValidator<SearchBasketsRequest> validator)
 {
     public async Task<PagedResponse<SearchBasketResponse>> HandleAsync(
-        SearchBasketsRequest request, CancellationToken ct)
+        SearchBasketsRequest request, Guid userId, CancellationToken ct)
     {
         var validation = await validator.ValidateAsync(request, ct);
         if (!validation.IsValid)
             throw new AppValidationException(validation);
         
-        IQueryable<Basket> query = db.Baskets;
+        IQueryable<Basket> query = db.Baskets.Where(b => b.UserId == userId);
 
         if (!string.IsNullOrWhiteSpace(request.Query))
         {

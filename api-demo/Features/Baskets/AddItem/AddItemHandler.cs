@@ -11,7 +11,7 @@ public class AddItemHandler(
     IValidator<AddItemRequest> validator)
 {
     public async Task<BasketResponse> HandleAsync(
-        Guid basketId, AddItemRequest request, CancellationToken ct)
+        Guid basketId, AddItemRequest request, Guid userId, CancellationToken ct)
     {
         var validation = await validator.ValidateAsync(request, ct);
         if (!validation.IsValid)
@@ -19,7 +19,7 @@ public class AddItemHandler(
 
         var basket = await db.Baskets
                          .Include(b => b.Items)
-                         .FirstOrDefaultAsync(b => b.Id == basketId, ct)
+                         .FirstOrDefaultAsync(b => b.Id == basketId && b.UserId == userId, ct)
                      ?? throw new NotFoundException($"Basket with ID '{basketId}' was not found.");
         
         basket.AddItem(request.ProductName, request.ItemNo, request.Quantity, request.UnitPrice);

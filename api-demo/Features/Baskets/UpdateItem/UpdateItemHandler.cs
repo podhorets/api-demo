@@ -11,7 +11,7 @@ public class UpdateItemHandler(
     IValidator<UpdateItemRequest> validator)
 {
     public async Task<BasketResponse> HandleAsync(
-        Guid basketId, Guid itemId, UpdateItemRequest request, CancellationToken ct)
+        Guid basketId, Guid itemId, UpdateItemRequest request, Guid userId, CancellationToken ct)
     {
         var validation = await validator.ValidateAsync(request, ct);
         if (!validation.IsValid)
@@ -19,7 +19,7 @@ public class UpdateItemHandler(
 
         var basket = await db.Baskets
                          .Include(b => b.Items)
-                         .FirstOrDefaultAsync(b => b.Id == basketId, ct)
+                         .FirstOrDefaultAsync(b => b.Id == basketId && b.UserId == userId, ct)
                      ?? throw new NotFoundException($"Basket with ID '{basketId}' was not found.");
 
         if (request.Quantity.HasValue)
