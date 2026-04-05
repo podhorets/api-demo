@@ -13,6 +13,8 @@ public class AppDbContext : DbContext
     
     public DbSet<Basket> Baskets => Set<Basket>();
     public DbSet<BasketItem> BasketItems => Set<BasketItem>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         => modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
