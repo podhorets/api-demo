@@ -1,10 +1,12 @@
 using api_demo.Common.Middleware;
-using api_demo.Infrastructure.Persistence;
+using api_demo.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
-builder.Services.AddNpgsql<AppDbContext>(builder.Configuration.GetConnectionString("DefaultConnection")!);
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddAuth(builder.Configuration);
+builder.Services.AddFeatureHandlers();
 
 var app = builder.Build();
 
@@ -16,5 +18,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
