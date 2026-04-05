@@ -19,6 +19,7 @@ using api_demo.Features.Baskets.UpdateItem;
 using api_demo.Infrastructure.Persistence;
 using api_demo.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -98,6 +99,22 @@ public static class ServiceCollectionExtensions
         services.AddScoped<RequestPasswordResetHandler>();
         services.AddScoped<ConfirmPasswordResetHandler>();
 
+        return services;
+    }
+
+    public static IServiceCollection AddRateLimiting(this IServiceCollection services)
+    {
+        services.AddRateLimiter(options =>
+        {
+            options.AddFixedWindowLimiter("auth", opt =>
+            {
+                opt.PermitLimit = 10;
+                opt.Window = TimeSpan.FromMinutes(1);
+                opt.QueueLimit = 0;
+            });
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+        });
+        
         return services;
     }
 }
