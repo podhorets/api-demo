@@ -43,7 +43,7 @@ public class TokenService(IOptions<JwtOptions> jwtOptions) : ITokenService
         UserId = userId,
         Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
         CreatedAt = utcNow,
-        ExpiresAt = utcNow.AddDays(7)
+        ExpiresAt = utcNow.AddDays(_jwtOptions.RefreshTokenDays),
     };
     
     public ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)

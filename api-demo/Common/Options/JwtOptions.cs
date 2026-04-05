@@ -12,4 +12,6 @@ public class JwtOptions
     public string Audience { get; set; } = null!;
     [Required]
     public int AccessTokenMinutes { get; set; }
+    [Required]
+    public int RefreshTokenDays { get; set; }
 }
