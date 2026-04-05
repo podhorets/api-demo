@@ -2,6 +2,7 @@ using System.Text;
 using api_demo.Common.Interfaces;
 using api_demo.Common.Models;
 using api_demo.Common.Options;
+using api_demo.Features.Auth.Login;
 using api_demo.Features.Auth.Signup;
 using api_demo.Features.Baskets.AddItem;
 using api_demo.Features.Baskets.Create;
@@ -87,6 +88,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<RemoveItemHandler>();
         
         services.AddScoped<SignupHandler>();
+        services.AddScoped<LoginHandler>();
 
         return services;
     }
