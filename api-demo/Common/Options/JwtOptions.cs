@@ -14,4 +14,6 @@ public class JwtOptions
     public int AccessTokenMinutes { get; set; }
     [Required]
     public int RefreshTokenDays { get; set; }
+    [Required]
+    public int PasswordResetTokenMinutes { get; set; }
 }
