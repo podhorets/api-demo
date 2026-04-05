@@ -14,6 +14,8 @@ builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddFeatureHandlers();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddRateLimiting();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerWithJwt();
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
@@ -39,7 +41,9 @@ app.MapHealthChecks("/health");
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await db.Database.MigrateAsync();
