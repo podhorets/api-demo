@@ -84,26 +84,20 @@ All errors follow the same shape:
 
 Codes: `VALIDATION_ERROR` (400), `UNAUTHORIZED` (401), `NOT_FOUND` (404), `CONFLICT` (409), `INTERNAL_ERROR` (500).
 
+## Tests
+
+**Unit tests** (`api-demo.UnitTests`) cover pure logic with no external dependencies: validators, domain entity rules, services
+
+**Integration tests** (`api-demo.IntegrationTests`) spin up a real PostgreSQL container via TestContainers and test the full API with request/response cycle. Requires Docker.
+
 ## Postman
 
 A collection and environment are included in the `postman/` folder.
 
-**Import:** In Postman, click Import and load both `api-demo.postman_collection.json` and `api-demo.postman_environment.json`.
+**Files import:** In Postman, click Import and load both `api-demo.postman_collection.json` and `api-demo.postman_environment.json`.
 
 **IMPORTANT:** Select the `api-demo-local` environment (top right corner, `Variables` tab) and update `baseUrl` to match your running container URL:
 - **OrbStack**: `https://api-demo.api-demo.orb.local`
 - **Docker Desktop / other**: `http://localhost:8080`
 
 **Run:** Right-click the `api-demo API` collection -> Run collection -> confirm environment is `api-demo-local` -> Run. Requests must run in order, later ones depend on variables (`basketId`, `itemId`, etc.) set by earlier ones. Variables like `accessToken`, `refreshToken`, and `basketId` are captured automatically by the collection scripts. Signup generates a unique email each run so it's safe to repeat.
-
-## Notable decisions
-
-- **Soft deletes** on baskets via `IsDeleted` + EF global query filter
-- **Refresh token rotation**: old token revoked on every refresh, login revokes all existing tokens for the user
-- **Password reset token stored as hash**: raw token only returned once (in response for demo purposes), hash stored in DB to prevent exposure
-- **Static mappers** instead of AutoMapper: explicit, no hidden config or runtime reflection
-- **Domain validation in entities**: `Basket` enforces business rules (e.g. duplicate item numbers) directly, not just at the API boundary
-- **Correlation IDs**: `X-Correlation-Id` header propagated through logs and response, auto-generated if not provided
-- **BCrypt work factor 12** for password hashing
-- **Auto-migrations in development**: runs `MigrateAsync()` on startup so the database is always in sync locally 
-- **Secrets management via vaults**: connection strings, JWT secrets, and other sensitive variables must be stored and retrieved from a secure secret store (e.g. HashiCorp Vault). **The current approach** (appsettings) is for demo purposes only.
