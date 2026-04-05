@@ -7,4 +7,5 @@ public interface ITokenService
 {
     string GenerateAccessToken(User user);
     RefreshToken GenerateRefreshToken(Guid userId, DateTime utcNow);
+    ClaimsPrincipal? GetPrincipalFromExpiredToken(string token);
 }

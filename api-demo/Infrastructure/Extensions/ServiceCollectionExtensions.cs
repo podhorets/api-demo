@@ -4,6 +4,7 @@ using api_demo.Common.Models;
 using api_demo.Common.Options;
 using api_demo.Features.Auth.Login;
 using api_demo.Features.Auth.Logout;
+using api_demo.Features.Auth.RefreshToken;
 using api_demo.Features.Auth.Signup;
 using api_demo.Features.Baskets.AddItem;
 using api_demo.Features.Baskets.Create;
@@ -91,6 +92,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<SignupHandler>();
         services.AddScoped<LoginHandler>();
         services.AddScoped<LogoutHandler>();
+        services.AddScoped<RefreshTokenHandler>();
 
         return services;
     }

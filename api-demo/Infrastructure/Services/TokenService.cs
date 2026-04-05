@@ -12,7 +12,7 @@ namespace api_demo.Infrastructure.Services;
 
 public class TokenService(IOptions<JwtOptions> jwtOptions) : ITokenService
 {
-    private readonly JwtOptions _jwt = jwtOptions.Value;
+    private readonly JwtOptions _jwtOptions = jwtOptions.Value;
     
     public string GenerateAccessToken(User user)
     {
@@ -23,13 +23,13 @@ public class TokenService(IOptions<JwtOptions> jwtOptions) : ITokenService
             new Claim("firstName", user.FirstName ?? string.Empty),
         };
 
-        var key = new SymmetricSecurityKey(Convert.FromBase64String(_jwt.Secret));
+        var key = new SymmetricSecurityKey(Convert.FromBase64String(_jwtOptions.Secret));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expires = DateTime.UtcNow.AddMinutes(_jwt.AccessTokenMinutes);
+        var expires = DateTime.UtcNow.AddMinutes(_jwtOptions.AccessTokenMinutes);
         
         var token = new JwtSecurityToken(
-            issuer: _jwt.Issuer,
-            audience: _jwt.Audience,
+            issuer: _jwtOptions.Issuer,
+            audience: _jwtOptions.Audience,
             claims: claims,
             expires: expires,
             signingCredentials: credentials);
@@ -45,4 +45,28 @@ public class TokenService(IOptions<JwtOptions> jwtOptions) : ITokenService
         CreatedAt = utcNow,
         ExpiresAt = utcNow.AddDays(7)
     };
+    
+    public ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
+    {
+        var validation = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = false,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = _jwtOptions.Issuer,
+            ValidAudience = _jwtOptions.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Secret))
+        };
+
+        var handler = new JwtSecurityTokenHandler();
+        var principal = handler.ValidateToken(token, validation, out var securityToken);
+
+        if (securityToken is not JwtSecurityToken jwt
+            || !jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+                StringComparison.InvariantCultureIgnoreCase))
+            return null;
+
+        return principal;
+    }
 }
