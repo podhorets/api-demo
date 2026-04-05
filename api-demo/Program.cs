@@ -13,7 +13,6 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddFeatureHandlers();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddRateLimiting();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerWithJwt();
 builder.Services.AddHealthChecks()
@@ -32,7 +31,6 @@ app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
-app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 

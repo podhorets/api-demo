@@ -6,14 +6,12 @@ using api_demo.Features.Auth.PasswordReset.RequestPasswordReset;
 using api_demo.Features.Auth.RefreshToken;
 using api_demo.Features.Auth.Signup;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 
 namespace api_demo.Features.Auth;
 
 [ApiController]
 [Route("api/v1/auth")]
 [Produces("application/json")]
-[EnableRateLimiting("auth")]
 public class AuthController : ControllerBase
 {
     [HttpPost("signup")]
