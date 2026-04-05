@@ -4,6 +4,8 @@ using api_demo.Common.Models;
 using api_demo.Common.Options;
 using api_demo.Features.Auth.Login;
 using api_demo.Features.Auth.Logout;
+using api_demo.Features.Auth.PasswordReset.ConfirmPasswordReset;
+using api_demo.Features.Auth.PasswordReset.RequestPasswordReset;
 using api_demo.Features.Auth.RefreshToken;
 using api_demo.Features.Auth.Signup;
 using api_demo.Features.Baskets.AddItem;
@@ -93,6 +95,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<LoginHandler>();
         services.AddScoped<LogoutHandler>();
         services.AddScoped<RefreshTokenHandler>();
+        services.AddScoped<RequestPasswordResetHandler>();
+        services.AddScoped<ConfirmPasswordResetHandler>();
 
         return services;
     }

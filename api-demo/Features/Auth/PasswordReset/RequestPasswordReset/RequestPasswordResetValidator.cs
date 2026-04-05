@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace api_demo.Features.Auth.RequestPasswordReset;
+namespace api_demo.Features.Auth.PasswordReset.RequestPasswordReset;
 
 public class RequestPasswordResetValidator : AbstractValidator<RequestPasswordResetRequest>
 {

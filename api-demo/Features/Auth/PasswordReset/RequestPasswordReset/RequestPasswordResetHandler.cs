@@ -8,7 +8,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace api_demo.Features.Auth.RequestPasswordReset;
+namespace api_demo.Features.Auth.PasswordReset.RequestPasswordReset;
 
 public class RequestPasswordResetHandler(
     AppDbContext db,
